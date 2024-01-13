@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { join } from "path";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 
 const contactsPath = join("db", "contacts.json");
 
@@ -9,9 +9,7 @@ async function listContacts() {
     const readJsonResult = await fs.readFile(contactsPath);
     const dataArr = JSON.parse(readJsonResult);
     return dataArr;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 async function getContactById(contactId) {
@@ -19,9 +17,7 @@ async function getContactById(contactId) {
     const readJsonResult = await fs.readFile(contactsPath);
     const dataArr = JSON.parse(readJsonResult);
     return dataArr.find((contact) => contact.id === contactId) || null;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 async function removeContact(contactId) {
@@ -32,9 +28,7 @@ async function removeContact(contactId) {
     const removedContact = dataArr.splice(index, 1);
     await fs.writeFile(contactsPath, JSON.stringify(dataArr));
     return removedContact || null;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 async function addContact(name, email, phone) {
@@ -44,9 +38,7 @@ async function addContact(name, email, phone) {
     dataArr.push({ id: nanoid(), name, email, phone });
     await fs.writeFile(contactsPath, JSON.stringify(dataArr));
     return dataArr[dataArr.length - 1];
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export { listContacts, getContactById, removeContact, addContact };
