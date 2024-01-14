@@ -25,9 +25,13 @@ async function removeContact(contactId) {
     const readJsonResult = await fs.readFile(contactsPath);
     const dataArr = JSON.parse(readJsonResult);
     const index = dataArr.findIndex((contact) => contact.id === contactId);
-    const removedContact = dataArr.splice(index, 1);
+    if (index === -1) {
+      return null;
+    }
+    const removedContact = dataArr[index];
+    dataArr.splice(index, 1);
     await fs.writeFile(contactsPath, JSON.stringify(dataArr));
-    return removedContact || null;
+    return removedContact;
   } catch (e) {}
 }
 
